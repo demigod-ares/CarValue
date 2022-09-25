@@ -10,6 +10,7 @@ import { MessagesModule } from './file-edit/messages.module';
 import { LoggerModule } from './logger/logger.module';
 import { User } from './users/user.entity';
 import { Report } from './reports/report.entity';
+import dbConfig from '../ormconfig';
 const cookieSession = require('cookie-session');
 
 @Module({
@@ -22,12 +23,12 @@ const cookieSession = require('cookie-session');
       // keep forRootAsync method when using process.env above. Test is using memory as database
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
-        return {
-          type: 'sqlite',
-          database: config.get<string>('DB_NAME'),
-          entities: [User, Report], // config is done in individual modules
-          synchronize: true, // only used for development env. When set to true, it helps with auto-migrations when you change entity.
-        };
+        return dbConfig; // {
+        //   type: 'sqlite',
+        //   database: config.get<string>('DB_NAME'),
+        //   entities: [User, Report], // config is done in individual modules
+        //   synchronize: true, // only used for development env. When set to true, it helps with auto-migrations when you change entity.
+        // };
       },
     }),
     // .forRoot({ // remove forRoot method when using process.env above. Test is using memory as database
